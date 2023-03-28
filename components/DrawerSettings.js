@@ -4,6 +4,7 @@ import Slider from "@react-native-community/slider";
 import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 
 function DrawerSettings({}) {
@@ -18,6 +19,7 @@ function DrawerSettings({}) {
     function getLength(number) {
         return number.toString().length;
     }
+
     return (
         <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
@@ -77,7 +79,10 @@ function DrawerSettings({}) {
                         onValueChange={(value) => setPresencePenalty(getLength(value) > 1 ? value.toFixed(2) : value)}
                     />
                 </SettingChunk>
-                <Button size={"small"} status={"danger"} style={styles.tokenChangeButton}>Change OpenAI Token</Button>
+
+
+
+                <Button status={"danger"} style={styles.tokenChangeButton}>Change OpenAI Token</Button>
 
             </View>
         </ScrollView>
@@ -90,10 +95,12 @@ const styles = StyleSheet.create({
         height: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingBottom: "10%",
     },
     scrollContainer: {
         width: '100%',
     },
+
     settingTextRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',

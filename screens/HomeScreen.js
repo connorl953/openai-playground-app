@@ -6,42 +6,38 @@ import SystemBox from "../components/SystemBox";
 import ScrollableChat from "../components/ScrollableChat";
 import {Button} from "@ui-kitten/components";
 
-function HomeScreen({navigation, route}){
-const params = route.params;
-const [isBackButtonShown, setIsBackButtonShown] = React.useState(false);
-const animatedValue = new Animated.Value(0);
-
-const flex = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 4],
-});
+function HomeScreen({navigation, route}) {
+    const params = route.params;
 
 
 
 
 
-  return (
-    <View style={styles.container}>
-        <Header style={styles.header} navigation={navigation}/>
-        <SystemBox/>
-        <ScrollableChat/>
-        <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
-            <Button style={styles.clearButton} status={"danger"} onPress={()=>{Keyboard.dismiss()}} >Back</Button>
-        <Button style={styles.submitButton} status={"success"} >Submit</Button>
-        </KeyboardAvoidingView>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <Header style={styles.header} navigation={navigation}/>
+            <SystemBox/>
+            <ScrollableChat/>
+
+            <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
+                <Button style={styles.clearButton} status={"danger"} onPress={() => {
+                    Keyboard.dismiss()
+                }}>Back</Button>
+                <Button style={styles.submitButton} status={"success"}>Submit</Button>
+            </KeyboardAvoidingView>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 10,
         alignItems: 'center',
     },
-    header:{
+    header: {
         height: '10%',
     },
-    submitButton:{
+    submitButton: {
         flex: 4,
         borderRadius: 0,
         borderWidth: 0,
@@ -49,14 +45,14 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         backgroundColor: '#10a37f',
     },
-    clearButton:{
+    clearButton: {
         flex: 1,
         position: "relative",
         maxHeight: '100%',
         borderRadius: 0,
         borderWidth: 0,
     },
-    keyboardAvoidingButtonContainer:{
+    keyboardAvoidingButtonContainer: {
         flexDirection: 'row',
         width: '100%',
         alignItems: 'flex-end',

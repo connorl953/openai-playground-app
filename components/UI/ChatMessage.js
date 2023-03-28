@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Input} from "@ui-kitten/components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -7,15 +7,24 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 function ChatMessage(params){
     const {item} = params;
-    const isAssistant = item.isAssistant;
     const message =  item.message;
+    const isAssistant = item.isAssistant;
+
+
 
     if(isAssistant){
         return (
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>ASSISTANT</Text>
-                    <Ionicons name="remove-circle-outline" size={24} color="black" />
+                    <Pressable>
+                    <View style={[styles.titleContainer, {paddingLeft: 0}]}>
+
+                        <Text style={styles.title}>ASSISTANT</Text>
+                        <Ionicons name="swap-horizontal" size={24} color="black" />
+
+                    </View>
+                    </Pressable>
+                    <Ionicons name="remove-circle-outline" size={20} color="black" />
                 </View>
                 <Input value={(message && message)} placeholder={"Enter an assistant message here."} style={styles.textInputContainer} multiline={true} textStyle={styles.textInput}/>
             </View>
@@ -24,8 +33,12 @@ function ChatMessage(params){
         return (
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>USER</Text>
-                    <Ionicons name="remove-circle-outline" size={24} color="black" />
+                    <View style={[styles.titleContainer, {paddingLeft: 0}]}>
+                        <Text style={styles.title}>USER</Text>
+                        <Ionicons name="swap-horizontal" size={24} color="black" />
+                    </View>
+
+                    <Ionicons name="remove-circle-outline" size={20} color="black" />
                 </View>
                 <Input value={(message && message)} style={styles.textInputContainer} placeholder={"Enter a user message here."}  multiline={true} textStyle={styles.textInput}/>
             </View>
@@ -62,6 +75,7 @@ const styles = StyleSheet.create({
     },
     title:{
         marginVertical: 8,
+        marginRight: 5,
         fontSize: 15,
         fontWeight: 'bold',
     },

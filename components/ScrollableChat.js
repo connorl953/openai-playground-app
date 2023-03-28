@@ -21,11 +21,6 @@ const data = [{
         message: "",
     },
     {
-        key: '4',
-        isAssistant: false,
-        message: "",
-    },
-    {
         key: '5',
         isAssistant: false,
         message: "",
@@ -49,9 +44,7 @@ function ScrollableChat({}) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 6,
         borderTopColor: '#e0e0e0',
-        borderTopWidth: 1,
         width: '100%',
         flex: 1,
         backgroundColor: 'white',

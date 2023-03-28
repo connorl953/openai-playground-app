@@ -3,7 +3,6 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
 
 
-
 function SavedChatsBox({}) {
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
@@ -18,7 +17,12 @@ function SavedChatsBox({}) {
 
             </Select>
             <View style={styles.buttonContainer}>
-                <Button size={"small"} style={styles.button}>New Chat</Button>
+
+                <View style={styles.innerButtonContainer}>
+                    <Button size={"small"} status={"basic"} style={styles.button}>Edit Chat</Button>
+                    <Button size={"small"} status={"danger"} style={styles.button}>Delete Chat</Button>
+                </View>
+                <Button size={"small"}  style={[styles.button, {width: '100%'}]}>New Chat</Button>
             </View>
         </View>
     );
@@ -44,14 +48,18 @@ const styles = StyleSheet.create({
     buttonContainer: {
         width: '100%',
         paddingVertical: 5,
-        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+
+    },
+    innerButtonContainer: {
+        flexDirection: 'row',
+        marginBottom: 7,
     },
     button: {
-        minWidth: 100,
-        width: '100%',
-        paddingVertical: 5,
+        flex: 1,
+        margin: 0,
+        borderRadius: 0,
     }
 });
 
