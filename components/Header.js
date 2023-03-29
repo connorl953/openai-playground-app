@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable, Animated, Easing} from 'react-native';
+import {Animated, Easing, Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
+
 function Header({style}){
     const navigation = useNavigation();
     const animatedValue = new Animated.Value(0);

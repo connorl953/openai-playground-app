@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
 
 
@@ -8,8 +8,8 @@ function SavedChatsBox({}) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Saved Chats</Text>
-            <Select style={styles.dropdown} placeholder={"Load a chat..."}
+            <Text style={styles.title}>Saved Chats (W.I.P)</Text>
+            <Select disabled={true} style={styles.dropdown} placeholder={"Load a chat..."}
                     selectedIndex={selectedIndex}
                     onSelect={index => setSelectedIndex(index)}>
                 <SelectItem title={"Preset 1"}/>

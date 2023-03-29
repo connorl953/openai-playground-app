@@ -1,27 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {Input} from "@ui-kitten/components";
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-function AddMessage({}){
+function AddMessage({onAddMessage, onClearChat, style}) {
 
-  return (
-      <View style={styles.overallContainer}>
-      <View style={styles.addContainer}>
-        <Ionicons style={styles.icon} name={"add-circle-outline"} size={30} color={"#000"}/>
-          <Text style={styles.title}>Add message</Text>
-      </View>
 
-          <View style={styles.removeContainer}>
-              <Text style={styles.title}>Clear chat</Text>
-              <Ionicons style={styles.icon} name={"trash-outline"} size={30} color={"#000"}/>
-          </View>
-      </View>
-  );
+
+    return (
+        <View style={[styles.overallContainer, {...style}]}>
+            <Pressable style={styles.addContainer} onPress={onAddMessage}>
+                <Ionicons style={styles.icon} name={"add-circle-outline"} size={30} color={"#000"}/>
+                <Text style={styles.title}>Add message</Text>
+            </Pressable>
+
+            <Pressable style={styles.removeContainer} onPress={onClearChat}>
+
+                <Text style={styles.title}>Clear chat</Text>
+                <Ionicons style={styles.icon} name={"trash-outline"} size={30} color={"#000"}/>
+
+            </Pressable>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    addContainer:{
+    addContainer: {
         flex: 16,
         marginTop: 10,
         width: '100%',
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     },
-    removeContainer:{
+    removeContainer: {
         flex: 7,
         marginTop: 10,
         width: '100%',
@@ -44,15 +47,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
     },
-    overallContainer:{
+    overallContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    icon:{
-      marginHorizontal: 10,
+    icon: {
+        marginHorizontal: 10,
     },
-    title:{
+    title: {
         marginVertical: 8,
         textAlign: 'center',
         fontSize: 15,

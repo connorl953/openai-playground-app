@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Slider from "@react-native-community/slider";
 import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 
 function DrawerSettings({}) {
@@ -32,6 +31,7 @@ function DrawerSettings({}) {
                     <Text style={styles.title}>Model</Text>
                     <Select style={styles.settingsDropdown} placeholder={"Select a model..."}
                             selectedIndex={selectedIndex}
+
                             onSelect={index => setSelectedIndex(index)}>
                         <SelectItem title={"gpt-3.5-turbo"}/>
                         <SelectItem title={"gpt-4"}/>

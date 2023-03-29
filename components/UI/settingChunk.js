@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Slider from "@react-native-community/slider";
+import {StyleSheet, Text, View} from 'react-native';
 
 function settingChunk({children, title, value}){
   return (

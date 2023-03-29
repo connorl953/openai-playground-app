@@ -1,30 +1,32 @@
 import React from 'react';
-import {View, Text, StyleSheet, KeyboardAvoidingView, Keyboard, Animated} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Header from "../components/Header";
-import SavedChatsBox from "../components/SavedChatsBox";
-import SystemBox from "../components/SystemBox";
 import ScrollableChat from "../components/ScrollableChat";
-import {Button} from "@ui-kitten/components";
+
+import ChatContextProvider from "../store/chat-context";
+
+
+function isValidJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
 function HomeScreen({navigation, route}) {
     const params = route.params;
 
 
-
-
-
     return (
         <View style={styles.container}>
             <Header style={styles.header} navigation={navigation}/>
-            <SystemBox/>
-            <ScrollableChat/>
 
-            <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
-                <Button style={styles.clearButton} status={"danger"} onPress={() => {
-                    Keyboard.dismiss()
-                }}>Back</Button>
-                <Button style={styles.submitButton} status={"success"}>Submit</Button>
-            </KeyboardAvoidingView>
+            <ChatContextProvider>
+                <ScrollableChat/>
+            </ChatContextProvider>
+
         </View>
     );
 }
