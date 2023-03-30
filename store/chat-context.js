@@ -14,7 +14,6 @@ export const ChatContext = createContext({
     updateMessage: () => {},
     clearMessages: () => {},
     swapMessage: () => {},
-    appendMessage: () => {},
 });
 
 const ChatContextProvider = (props) => {
@@ -50,11 +49,7 @@ const ChatContextProvider = (props) => {
     };
 
     const clearMessages = () => {
-        setMessages([{
-            id: "1",
-            isAssistant: false,
-            message: ""
-        }]);
+        setMessages([]);
     }
     const deleteMessage = (id) => {
         setMessages(messages.filter((message) => message.id !== id));
@@ -80,17 +75,11 @@ const ChatContextProvider = (props) => {
         );
     }
 
-    const appendMessage = (id, appendMessage) => {
-        setMessages(
-            messages.map((message) =>
-                message.id === id ? { ...message, message: message.message + appendMessage } : message
-            )
-        );
-    }
+
 
     return (
         <ChatContext.Provider
-            value={{messages, systemMessage, updateSystemMessage, setMessageList, addMessage, deleteMessage, updateMessage, clearMessages, swapMessage, appendMessage }}
+            value={{messages, systemMessage, updateSystemMessage, setMessageList, addMessage, deleteMessage, updateMessage, clearMessages, swapMessage}}
         >
             {props.children}
         </ChatContext.Provider>

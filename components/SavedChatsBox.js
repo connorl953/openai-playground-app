@@ -19,7 +19,7 @@ function SavedChatsBox({}) {
             <View style={styles.buttonContainer}>
 
                 <View style={styles.innerButtonContainer}>
-                    <Button size={"small"} status={"basic"} style={styles.button}>Edit Chat</Button>
+                    <Button size={"small"} status={"basic"} style={styles.button}>Rename</Button>
                     <Button size={"small"} status={"danger"} style={styles.button}>Delete Chat</Button>
                 </View>
                 <Button size={"small"}  style={[styles.button, {width: '100%'}]}>New Chat</Button>

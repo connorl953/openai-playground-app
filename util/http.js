@@ -2,12 +2,19 @@ import EventSource from "react-native-sse";
 
 
 let es;
-export const openAiCompletion = (messages, handleText, onCompletion) => {
+export const openAiCompletion = (token, settings, messages, handleText, onCompletion, onError) => {
     let fullText = "";
+
+
+
     const params = {
         'messages': messages,
-        'model': 'gpt-3.5-turbo',
-        'max_tokens': 2048,
+        'model': settings.model,
+        'temperature': parseFloat(settings.temperature),
+        'max_tokens': parseInt(settings.max_length),
+        'top_p': parseFloat(settings.top_p),
+        'frequency_penalty': parseFloat(settings.frequency_penalty),
+        'presence_penalty': parseFloat(settings.presence_penalty),
         'stream': true,
     }
     es = new EventSource("https://api.openai.com/v1/chat/completions", {
@@ -15,7 +22,7 @@ export const openAiCompletion = (messages, handleText, onCompletion) => {
             "Content-Type": "application/json",
             Authorization: {
                 toString: function () {
-                    return "Bearer "
+                    return "Bearer " + token;
                 }
             }
         },
@@ -23,6 +30,7 @@ export const openAiCompletion = (messages, handleText, onCompletion) => {
         method: "POST",
 
     });
+    console.log("Starting completion with params: " + JSON.stringify(params))
     const url = new URL("https://api.openai.com/v1/chat/completions");
     let tokens = 0;
     let cachedText = "";
@@ -32,13 +40,14 @@ export const openAiCompletion = (messages, handleText, onCompletion) => {
     es.addEventListener("close", (event) => {
     });
     es.addEventListener("error", (event) => {
-
-
+        onError(event);
+        es.removeAllEventListeners();
+        es.close();
     });
     es.addEventListener("message", (event) => {
         if (event.data.includes("[DONE]")) {
             console.log("Closing...");
-            if(cachedText.length > 0){
+            if (cachedText.length > 0) {
                 handleText(cachedText);
                 cachedText = "";
             }
@@ -49,10 +58,10 @@ export const openAiCompletion = (messages, handleText, onCompletion) => {
             if (isValidJson(event.data)) {
                 let json = JSON.parse(event.data);
                 if (!!json.choices[0].delta && !!json.choices[0].delta.content) {
-                    fullText+=json.choices[0].delta.content;
+                    fullText += json.choices[0].delta.content;
                     tokens++;
-                    cachedText+=json.choices[0].delta.content;
-                    if(tokens % 1 === 0){
+                    cachedText += json.choices[0].delta.content;
+                    if (tokens % 1 === 0) {
                         handleText(cachedText);
                         cachedText = "";
                     }

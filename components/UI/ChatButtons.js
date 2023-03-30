@@ -1,34 +1,38 @@
 import React, {useContext, useState} from 'react';
-import {Keyboard, KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {ActivityIndicator, Alert, Keyboard, KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {Button} from "@ui-kitten/components";
 import {ChatContext} from "../../store/chat-context";
 import {cancelCompletion, openAiCompletion} from "../../util/http";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ChatButtons({onComplete, onTextChange}) {
 
     const chatCtx = useContext(ChatContext);
     const [isCompleting, setIsCompleting] = useState(false);
-    const [cancelled, setCancelled] = useState(false);
 
 
     async function submitChat() {
 
 
-        setCancelled(false);
-        setTimeout(() => {
-
-
+        setTimeout(async () => {
             Keyboard.dismiss();
             setIsCompleting(true);
+
+            let token = await AsyncStorage.getItem("token");
+            if(!!!token || (token && token.length === 0)){
+                console.log("No token found");
+                return;
+            }
+
             let preparedChatContent = [];
 
-            if(chatCtx.messages.length > 0) {
-                preparedChatContent.push(chatCtx.messages.map((message) => {
+            if (chatCtx.messages.length > 0) {
+                preparedChatContent = chatCtx.messages.map((message) => {
                     return {
                         role: message.isAssistant ? "assistant" : "user",
                         content: message.message
                     };
-                }));
+                });
             }
             if (chatCtx.systemMessage.length > 0) {
                 preparedChatContent.unshift({
@@ -48,7 +52,13 @@ function ChatButtons({onComplete, onTextChange}) {
 
                 }
             } else {
-                targetID = chatCtx.addMessage(true);
+                targetID = Math.random().toString();
+
+                chatCtx.setMessageList({
+                    id: targetID,
+                    message: returnedText,
+                    isAssistant: true
+                });
                 console.log("Add message, id: " + targetID);
             }
             let returnedText = ""
@@ -58,20 +68,55 @@ function ChatButtons({onComplete, onTextChange}) {
                 setTimeout(() => {
                     returnedText = returnedText + text;
                     console.log("Handle text: " + text);
-                    chatCtx.setMessageList([...chatCtx.messages, {
-                        id: targetID,
-                        message: returnedText,
-                        isAssistant: true
-                    }]);
+                    if(chatCtx.messages.length > 0) {
+                        chatCtx.setMessageList([...chatCtx.messages, {
+                            id: targetID,
+                            message: returnedText,
+                            isAssistant: true
+                        }]);
+                    } else {
+                        chatCtx.setMessageList([{
+                            id: targetID,
+                            message: returnedText,
+                            isAssistant: true
+                        }]);
+                    }
                     onTextChange();
                 })
 
             }
 
-            openAiCompletion(preparedChatContent, handleText, onCompletion)
+            if(preparedChatContent.length === 0){
+                Alert.alert("Error", "Please enter a message to complete.");
+                setIsCompleting(false)
+                return;
+            }
+            let settings =  JSON.parse(await AsyncStorage.getItem("settings"));
+            if (!!settings) {
+                openAiCompletion(token, settings, preparedChatContent, handleText, onCompletion, handleError)
+            } else {
+                settings = {
+                    temperature: 0.7,
+                    max_length: 256,
+                    model: "gpt-3.5-turbo",
+                    top_p: 1,
+                    frequency_penalty: 0,
+                    presence_penalty: 0,
+                }
+                openAiCompletion(token, settings, preparedChatContent, handleText, onCompletion, handleError)
+            }
+
         }, 15)
 
         console.log("Submit chat");
+    }
+
+    function handleError(error) {
+        console.log("Error in completion");
+        console.log(error);
+        chatCtx.setMessageList(chatCtx.messages.slice(0, chatCtx.messages.length - 1));
+        setIsCompleting(false);
+        Alert.alert("Error", "An error occurred while completing the message. Please try again later.");
     }
 
     function stopCompletion() {
@@ -97,7 +142,7 @@ function ChatButtons({onComplete, onTextChange}) {
         <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
             <Button style={styles.clearButton} status={"danger"}
                     onPress={handleBack}>{isCompleting ? "Stop" : "Back"}</Button>
-            <Button style={styles.submitButton} onPress={submitChat} status={"success"}>Submit</Button>
+            <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (<ActivityIndicator/>) : "Submit"}</Button>
         </KeyboardAvoidingView>
     );
 }
@@ -109,17 +154,20 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         alignSelf: 'flex-end',
         backgroundColor: '#10a37f',
+        height: '100%',
+
     },
     clearButton: {
         flex: 1,
         position: "relative",
-        maxHeight: '100%',
+        height: '100%',
         borderRadius: 0,
         borderWidth: 0,
     },
     keyboardAvoidingButtonContainer: {
         flexDirection: 'row',
         width: '100%',
+        height: '10%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
     }

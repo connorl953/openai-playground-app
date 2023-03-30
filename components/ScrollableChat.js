@@ -45,7 +45,7 @@ function ScrollableChat({}) {
         chatRef.current.scrollToOffset({offset: 0})
         Animated.timing(animatedValue, {
             toValue: 0,
-            duration: 500,
+            duration: 200,
             useNativeDriver: true,
         }).start(() => {
             chatCtx.clearMessages()

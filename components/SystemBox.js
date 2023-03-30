@@ -53,11 +53,11 @@ function SystemBox({}) {
                 <Pressable onPress={handlePress}>
                     <View style={[styles.titleContainer, {paddingLeft: 0}]}>
                         <Text style={styles.title}>SYSTEM</Text>
-                        <Ionicons style={styles.icon} name={iconName} size={20} color={"#000"}/>
+                        <Ionicons style={styles.icon} name={iconName} size={23} color={"#000"}/>
                     </View>
                 </Pressable>
                 <Pressable onPress={handleDelete}>
-                    <Ionicons name="trash-outline" size={20} color="black"/>
+                    <Ionicons name="trash-outline" size={25} color="black"/>
                 </Pressable>
             </View>
 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     title: {
 
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: 'bold',
 
     },

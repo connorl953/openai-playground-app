@@ -27,11 +27,11 @@ function ChatMessage({item, onSwap, onDelete, onEdit, onFocus, onBlur}) {
                 <Pressable onPress={handleSwap}>
                     <View style={[styles.titleContainer, {paddingLeft: 0}]}>
                         <Text style={styles.title}>{isAssistant ? "ASSISTANT" : "USER"}</Text>
-                        <Ionicons name="swap-horizontal" size={24} color="black"/>
+                        <Ionicons name="swap-horizontal" size={25} color="black"/>
                     </View>
                 </Pressable>
                 <Pressable onPress={handleDelete}>
-                    <Ionicons name="remove-circle-outline" size={20} color="black"/>
+                    <Ionicons name="remove-circle-outline" size={25} color="black"/>
                 </Pressable>
             </View>
             <Input onFocus={onFocus} onBlur={onBlur} onChange={handleEdit} value={(message && message)} placeholder={`Enter ${isAssistant? "an assistant" : "a user"} message here. `}

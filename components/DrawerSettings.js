@@ -1,22 +1,106 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import Slider from "@react-native-community/slider";
-import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
+import {Autocomplete, AutocompleteItem, Button} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ChangeToken from "./UI/ChangeToken";
+import Ionicons from "react-native-vector-icons/Ionicons";
+
+const models = [
+    { name: 'gpt-3.5-turbo' },
+    { name: 'gpt-4' },
+
+];
 
 
 function DrawerSettings({}) {
-    const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
+
+
+    const [model, setModel] = useState("");
     const [temperature, setTemperature] = useState(0.7);
     const [maxLength, setMaxLength] = useState(256);
     const [topP, setTopP] = useState(1);
     const [freqPenalty, setFreqPenalty] = useState(0);
     const [presencePenalty, setPresencePenalty] = useState(0);
+    const [initialLoad, setInitialLoad] = useState(true);
+
+
+    async function initialLoader(){
+        if(!!await AsyncStorage.getItem('settings') && initialLoad){
+            await AsyncStorage.getItem('settings').then((settings) => {
+                settings = JSON.parse(settings);
+                setModel(settings.model);
+                setTemperature(parseFloat(settings.temperature));
+                setMaxLength(parseInt(settings.max_length));
+                setTopP(parseFloat(settings.top_p));
+                setFreqPenalty(parseFloat(settings.frequency_penalty));
+                setPresencePenalty(parseFloat(settings.presence_penalty));
+            })
+            setInitialLoad(false);
+        }
+    }
+
+    initialLoader();
+
 
 
     function getLength(number) {
         return number.toString().length;
+    }
+
+    async function saveSettings(modelName) {
+        AsyncStorage.setItem('settings', JSON.stringify({
+            model: modelName,
+            temperature: temperature,
+            max_length: maxLength,
+            top_p: topP,
+            frequency_penalty: freqPenalty,
+            presence_penalty: presencePenalty,
+        })).catch((err) => {
+            console.log(err);
+        });
+        console.log("Settings saved");
+        console.log("Settings: ", JSON.stringify( JSON.parse(await AsyncStorage.getItem('settings'))));
+    }
+
+    function resetSettings(){
+        setModel("gpt-3.5-turbo");
+        setTemperature(0.7);
+        setMaxLength(256);
+        setTopP(1);
+        setFreqPenalty(0);
+        setPresencePenalty(0);
+    }
+
+    useEffect(() => {
+        if(!initialLoad){
+            saveSettings(model);
+        }
+    }, [temperature, maxLength, topP, freqPenalty, presencePenalty])
+
+    const renderOption = (item, index) => {
+        return (
+            <AutocompleteItem key={index} title={item.name}/>
+        );
+    };
+    const onSelect = async (query) => {
+        handleModelChange(models[query].name)
+    }
+    const clearInput = ()=>{
+        setModel("");
+    }
+    const renderCloseIcon = () => (
+        <TouchableWithoutFeedback onPress={clearInput}>
+            <View style={{padding: 2}}>
+            <Ionicons name="close-circle-outline" size={25} color="black"/>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+    const handleModelChange = (text) =>{
+        setModel(text);
+        saveSettings(text);
     }
 
     return (
@@ -29,15 +113,17 @@ function DrawerSettings({}) {
 
                 <View style={styles.settingChunk}>
                     <Text style={styles.title}>Model</Text>
-                    <Select style={styles.settingsDropdown} placeholder={"Select a model..."}
-                            selectedIndex={selectedIndex}
 
-                            onSelect={index => setSelectedIndex(index)}>
-                        <SelectItem title={"gpt-3.5-turbo"}/>
-                        <SelectItem title={"gpt-4"}/>
-
-                    </Select>
+                    <Autocomplete placeholder={"Select a model..."}
+                                  value={model}
+                                  onChangeText={handleModelChange}
+                                  onSelect={onSelect}
+                                  accessoryRight={renderCloseIcon}
+                    >
+                        {models.map(renderOption)}
+                    </Autocomplete>
                 </View>
+
 
                 <SettingChunk title={"Temperature"} value={temperature}>
                     <Slider
@@ -51,7 +137,7 @@ function DrawerSettings({}) {
                     <Slider
                         value={maxLength}
                         minimumValue={0}
-                        maximumValue={2048}
+                        maximumValue={8192}
                         onValueChange={(value) => setMaxLength(value.toFixed(0))}
                     />
                 </SettingChunk>
@@ -81,9 +167,8 @@ function DrawerSettings({}) {
                 </SettingChunk>
 
 
-
-                <Button status={"danger"} style={styles.tokenChangeButton}>Change OpenAI Token</Button>
-
+                <Button status={"basic"} style={styles.tokenChangeButton} onPress={resetSettings}>Reset Settings</Button>
+                <ChangeToken/>
             </View>
         </ScrollView>
     );
