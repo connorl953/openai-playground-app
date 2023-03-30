@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'reac
 import {Autocomplete, AutocompleteItem, Button} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
+import Slider from "@react-native-community/slider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ChangeToken from "./UI/ChangeToken";
 import Ionicons from "react-native-vector-icons/Ionicons";
