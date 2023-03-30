@@ -35,7 +35,8 @@
     "react-native-sse": "^1.1.0",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
-    "text-encoding": "^0.7.0"
+    "text-encoding": "^0.7.0",
+    "turtle-cli": "^0.28.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

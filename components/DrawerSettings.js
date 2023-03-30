@@ -50,9 +50,9 @@ function DrawerSettings({}) {
         return number.toString().length;
     }
 
-    async function saveSettings(modelName) {
+    function saveSettings(modelName) {
         // Check if settings are the same
-        await AsyncStorage.setItem('settings', JSON.stringify({
+        AsyncStorage.setItem('settings', JSON.stringify({
             model: modelName,
             temperature: temperature,
             max_length: maxLength,
