@@ -5,6 +5,7 @@ import HomeScreen from "./screens/HomeScreen";
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider} from "@ui-kitten/components";
 import DrawerSettings from "./components/DrawerSettings";
+import {StatusBar} from "expo-status-bar";
 
 
 function CustomDrawerContent(props) {
@@ -46,7 +47,7 @@ function chatStack() {
 export default function App() {
     return (
         <>
-            <ActivityIndicator color={"#000000"}/>
+            <StatusBar style="dark"/>
             {chatStack()}
         </>
     );
