@@ -50,7 +50,7 @@ function DrawerSettings({}) {
         return number.toString().length;
     }
 
-    function saveSettings(modelName) {
+    async function saveSettings(modelName) {
         // Check if settings are the same
         AsyncStorage.setItem('settings', JSON.stringify({
             model: modelName,
