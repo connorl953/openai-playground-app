@@ -173,8 +173,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     footer: {
-        borderTopColor: '#e0e0e0',
-        borderTopWidth: 1,
+
     },
 
 });

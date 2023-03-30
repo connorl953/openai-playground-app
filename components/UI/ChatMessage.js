@@ -44,7 +44,7 @@ function ChatMessage({item, onSwap, onDelete, onEdit, onFocus, onBlur}) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 10,
+        marginTop: 3,
         width: '100%',
         backgroundColor: 'white',
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e0e0e0',
         alignItems: 'flex-start',
         paddingHorizontal: 1,
-
+        paddingBottom: 3,
     },
     textInput: {
         textAlignVertical: 'top',
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        marginVertical: 8,
         marginRight: 5,
         fontSize: 15,
         fontWeight: 'bold',
