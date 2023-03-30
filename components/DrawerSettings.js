@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
-import Slider from "@react-native-community/slider";
 import {Autocomplete, AutocompleteItem, Button} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
