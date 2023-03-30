@@ -51,7 +51,8 @@ function DrawerSettings({}) {
     }
 
     async function saveSettings(modelName) {
-        AsyncStorage.setItem('settings', JSON.stringify({
+        // Check if settings are the same
+        await AsyncStorage.setItem('settings', JSON.stringify({
             model: modelName,
             temperature: temperature,
             max_length: maxLength,
@@ -61,8 +62,6 @@ function DrawerSettings({}) {
         })).catch((err) => {
             console.log(err);
         });
-        console.log("Settings saved");
-        console.log("Settings: ", JSON.stringify( JSON.parse(await AsyncStorage.getItem('settings'))));
     }
 
     function resetSettings(){

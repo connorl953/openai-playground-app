@@ -5,7 +5,7 @@ import {ChatContext} from "../../store/chat-context";
 import {cancelCompletion, openAiCompletion} from "../../util/http";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function ChatButtons({onComplete, onTextChange}) {
+function ChatButtons({onTextChange}) {
 
     const chatCtx = useContext(ChatContext);
     const [isCompleting, setIsCompleting] = useState(false);
@@ -19,7 +19,7 @@ function ChatButtons({onComplete, onTextChange}) {
             setIsCompleting(true);
 
             let token = await AsyncStorage.getItem("token");
-            if(!!!token || (token && token.length === 0)){
+            if (!!!token || (token && token.length === 0)) {
                 console.log("No token found");
                 return;
             }
@@ -68,7 +68,7 @@ function ChatButtons({onComplete, onTextChange}) {
                 setTimeout(() => {
                     returnedText = returnedText + text;
                     console.log("Handle text: " + text);
-                    if(chatCtx.messages.length > 0) {
+                    if (chatCtx.messages.length > 0) {
                         chatCtx.setMessageList([...chatCtx.messages, {
                             id: targetID,
                             message: returnedText,
@@ -86,12 +86,12 @@ function ChatButtons({onComplete, onTextChange}) {
 
             }
 
-            if(preparedChatContent.length === 0){
+            if (preparedChatContent.length === 0) {
                 Alert.alert("Error", "Please enter a message to complete.");
                 setIsCompleting(false)
                 return;
             }
-            let settings =  JSON.parse(await AsyncStorage.getItem("settings"));
+            let settings = JSON.parse(await AsyncStorage.getItem("settings"));
             if (!!settings) {
                 openAiCompletion(token, settings, preparedChatContent, handleText, onCompletion, handleError)
             } else {
@@ -142,7 +142,8 @@ function ChatButtons({onComplete, onTextChange}) {
         <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
             <Button style={styles.clearButton} status={"danger"}
                     onPress={handleBack}>{isCompleting ? "Stop" : "Back"}</Button>
-            <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (<ActivityIndicator/>) : "Submit"}</Button>
+            <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (
+                <ActivityIndicator/>) : "Submit"}</Button>
         </KeyboardAvoidingView>
     );
 }

@@ -5,10 +5,12 @@ import {ChatContext} from "../store/chat-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const animatedValue = new Animated.Value(0);
+
 function SystemBox({}) {
 
     const chatCtx = useContext(ChatContext);
     const [expanded, setExpanded] = React.useState(false);
+    const [hidden, setHidden] = React.useState(true);
 
     const height = animatedValue.interpolate({
         inputRange: [0, 1],
@@ -16,15 +18,22 @@ function SystemBox({}) {
     });
 
     const [iconName, setIconName] = React.useState("resize-outline");
-    function handlePress(){
-        if(expanded){
+
+    function handleHiddenToggle() {
+
+        setHidden(!hidden)
+    }
+
+    function handleExpandToggle() {
+
+        if (expanded) {
             setIconName("resize-outline")
 
             Animated.timing(animatedValue, {
                 toValue: 0,
                 duration: 250,
                 useNativeDriver: false,
-            }).start(()=> {
+            }).start(() => {
                 setExpanded(!expanded);
             });
         } else {
@@ -34,37 +43,71 @@ function SystemBox({}) {
                 toValue: 1,
                 duration: 250,
                 useNativeDriver: false,
-            }).start(()=> {
+            }).start(() => {
                 setExpanded(!expanded);
             });
         }
     }
+
     function handleText(text) {
         chatCtx.updateSystemMessage(text);
     }
 
-    function handleDelete(){
+    function handleDelete() {
         chatCtx.updateSystemMessage("");
     }
+
+    function renderTextBox() {
+        if (!hidden) {
+            return (
+                <Animated.View style={[styles.animatedContainer, {height: height}]}>
+                    <Input placeholder={"You are a helpful assistant."} value={chatCtx.systemMessage}
+                           onChangeText={handleText}
+                           style={styles.textInputContainer} multiline={true} textStyle={styles.textInput}/>
+                </Animated.View>
+            )
+        } else {
+            return null;
+        }
+    }
+
+    function renderDeleteAndExpand() {
+        if (!hidden) {
+            return (
+                <>
+                    <Pressable onPress={handleExpandToggle}>
+                        <Ionicons name={iconName} size={25} color="black"/>
+                    </Pressable>
+
+                    <Pressable onPress={handleDelete}>
+                        <Ionicons name="trash-outline" size={25} color="black"/>
+                    </Pressable>
+                </>
+            )
+        } else {
+            return null;
+        }
+    }
+
     return (
 
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Pressable onPress={handlePress}>
+                <Pressable onPress={handleHiddenToggle}>
                     <View style={[styles.titleContainer, {paddingLeft: 0}]}>
                         <Text style={styles.title}>SYSTEM</Text>
-                        <Ionicons style={styles.icon} name={iconName} size={23} color={"#000"}/>
+                        <Ionicons style={styles.icon} name={!hidden ? "eye-outline" : "eye-off-outline"} size={23}
+                                  color={"#000"}/>
                     </View>
                 </Pressable>
-                <Pressable onPress={handleDelete}>
-                    <Ionicons name="trash-outline" size={25} color="black"/>
-                </Pressable>
-            </View>
 
-            <Animated.View style={[styles.animatedContainer, {height: height}]}>
-            <Input placeholder={"You are a helpful assistant."}  value={chatCtx.systemMessage} onChangeText={handleText}
-                   style={styles.textInputContainer} multiline={true} textStyle={styles.textInput}/>
-            </Animated.View>
+                {renderDeleteAndExpand()}
+            </View>
+            {renderTextBox()}
+            {/*<Animated.View style={[styles.animatedContainer, {height: height}]}>*/}
+            {/*<Input placeholder={"You are a helpful assistant."}  value={chatCtx.systemMessage} onChangeText={handleText}*/}
+            {/*       style={styles.textInputContainer} multiline={true} textStyle={styles.textInput}/>*/}
+            {/*</Animated.View>*/}
 
         </View>
     );
@@ -78,7 +121,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     titleContainer: {
-        marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -90,15 +132,13 @@ const styles = StyleSheet.create({
 
         alignItems: 'flex-start',
         paddingHorizontal: 1,
-        flex:1,
+        flex: 1,
     },
-    animatedContainer: {
-
-    },
+    animatedContainer: {},
     textInput: {
         textAlignVertical: 'top',
         textAlign: 'left',
-        flex:1,
+        flex: 1,
         paddingTop: 0,
         marginTop: 0,
     },
@@ -108,6 +148,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
+    icon: {
+        paddingLeft: 10,
+    }
 });
 
 export default SystemBox;

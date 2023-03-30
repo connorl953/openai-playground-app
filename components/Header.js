@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, Easing, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Animated, Easing, Keyboard, Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
 
@@ -15,6 +15,11 @@ function Header({style}){
             duration: 1500,
             useNativeDriver: true,
         }).start(()=>animatedValue.setValue(0));
+
+        if(Keyboard.isVisible()) {
+            Keyboard.dismiss();
+        }
+
         navigation.openDrawer()
     }
     const spin = animatedValue.interpolate({
@@ -44,14 +49,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         paddingHorizontal: 15,
-        paddingTop: 30,
         justifyContent: 'space-between',
         alignContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
-        minHeight: 100,
+        minHeight: 30,
         transform: [{rotate: "0deg"}],
     },
     subContainer:{
@@ -62,7 +66,6 @@ const styles = StyleSheet.create({
       paddingRight: 10,
     },
     title:{
-        marginVertical: 10,
         fontSize: 25,
         fontWeight: 'bold',
     },
