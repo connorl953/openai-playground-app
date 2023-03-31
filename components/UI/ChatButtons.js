@@ -138,14 +138,31 @@ function ChatButtons({onTextChange}) {
         }
     }
 
-    return (
-        <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
-            <Button style={styles.clearButton} status={"danger"}
-                    onPress={handleBack}>{isCompleting ? "Stop" : "Back"}</Button>
-            <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (
-                <ActivityIndicator/>) : "Submit"}</Button>
-        </KeyboardAvoidingView>
-    );
+    if(Platform.OS === 'ios'){
+        return (
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? "position": "padding"}
+                                  keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+                                  contentContainerStyle={styles.keyboardAvoidingButtonContainer}
+                                  style={styles.IOSKeyboardAvoidingButtonContainer}>
+
+                <Button style={styles.clearButton} status={"danger"}
+                        onPress={handleBack}>{isCompleting ? "Stop" : "Back"}</Button>
+                <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (
+                    <ActivityIndicator/>) : "Submit"}</Button>
+            </KeyboardAvoidingView>
+        );
+    } else {
+        return (
+            <KeyboardAvoidingView style={styles.keyboardAvoidingButtonContainer}>
+                <Button style={styles.clearButton} status={"danger"}
+                        onPress={handleBack}>{isCompleting ? "Stop" : "Back"}</Button>
+                <Button style={styles.submitButton} onPress={submitChat} status={"success"}>{isCompleting ? (
+                    <ActivityIndicator/>) : "Submit"}</Button>
+            </KeyboardAvoidingView>
+        );
+    }
+
+
 }
 
 const styles = StyleSheet.create({

@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#e0e0e0',
         minHeight: 30,
         transform: [{rotate: "0deg"}],
+        paddingTop: 15,
     },
     subContainer:{
         flexDirection: 'row',

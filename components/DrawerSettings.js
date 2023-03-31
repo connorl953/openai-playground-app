@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    View
+} from 'react-native';
 import {Autocomplete, AutocompleteItem, Button} from "@ui-kitten/components";
 import SavedChatsBox from "./SavedChatsBox";
 import SettingChunk from "./UI/settingChunk";
@@ -21,9 +29,9 @@ function DrawerSettings({}) {
     const [model, setModel] = useState("");
     const [temperature, setTemperature] = useState(0.7);
     const [maxLength, setMaxLength] = useState(256);
-    const [topP, setTopP] = useState(1);
-    const [freqPenalty, setFreqPenalty] = useState(0);
-    const [presencePenalty, setPresencePenalty] = useState(0);
+    const [topP, setTopP] = useState(1.0);
+    const [freqPenalty, setFreqPenalty] = useState(0.0);
+    const [presencePenalty, setPresencePenalty] = useState(0.0);
     const [initialLoad, setInitialLoad] = useState(true);
 
 
@@ -102,75 +110,88 @@ function DrawerSettings({}) {
         saveSettings(text);
     }
 
-    return (
-        <ScrollView style={styles.scrollContainer}>
-            <View style={styles.container}>
+    const mainContent = (<ScrollView style={styles.scrollContainer}>
+        <View style={styles.container}>
 
-                <View style={styles.settingChunk}>
-                    <SavedChatsBox/>
-                </View>
-
-                <View style={styles.settingChunk}>
-                    <Text style={styles.title}>Model</Text>
-
-                    <Autocomplete placeholder={"Select a model..."}
-                                  value={model}
-                                  onChangeText={handleModelChange}
-                                  onSelect={onSelect}
-                                  accessoryRight={renderCloseIcon}
-                    >
-                        {models.map(renderOption)}
-                    </Autocomplete>
-                </View>
-
-
-                <SettingChunk title={"Temperature"} value={temperature}>
-                    <Slider
-                        value={temperature}
-                        minimumValue={0}
-                        maximumValue={1}
-                        onValueChange={(value) => setTemperature(getLength(value) > 1 ? value.toFixed(2) : value)}
-                    />
-                </SettingChunk>
-                <SettingChunk title={"Max length"} value={maxLength}>
-                    <Slider
-                        value={maxLength}
-                        minimumValue={0}
-                        maximumValue={8192}
-                        onValueChange={(value) => setMaxLength(value.toFixed(0))}
-                    />
-                </SettingChunk>
-                <SettingChunk title={"Top P"} value={topP}>
-                    <Slider
-                        value={topP}
-                        minimumValue={0}
-                        maximumValue={1}
-                        onValueChange={(value) => setTopP(getLength(value) > 1 ? value.toFixed(2) : value)}
-                    />
-                </SettingChunk>
-                <SettingChunk title={"Frequency penalty"} value={freqPenalty}>
-                    <Slider
-                        value={freqPenalty}
-                        minimumValue={0}
-                        maximumValue={2}
-                        onValueChange={(value) => setFreqPenalty(getLength(value) > 1 ? value.toFixed(2) : value)}
-                    />
-                </SettingChunk>
-                <SettingChunk title={"Presence penalty"} value={presencePenalty}>
-                    <Slider
-                        value={presencePenalty}
-                        minimumValue={0}
-                        maximumValue={2}
-                        onValueChange={(value) => setPresencePenalty(getLength(value) > 1 ? value.toFixed(2) : value)}
-                    />
-                </SettingChunk>
-
-
-                <Button status={"basic"} style={styles.tokenChangeButton} onPress={resetSettings}>Reset Settings</Button>
-                <ChangeToken/>
+            <View style={styles.settingChunk}>
+                <SavedChatsBox/>
             </View>
-        </ScrollView>
-    );
+
+            <View style={styles.settingChunk}>
+                <Text style={styles.title}>Model</Text>
+
+                <Autocomplete placeholder={"Select a model..."}
+                              value={model}
+                              onChangeText={handleModelChange}
+                              onSelect={onSelect}
+                              accessoryRight={renderCloseIcon}
+                >
+                    {models.map(renderOption)}
+                </Autocomplete>
+            </View>
+
+
+            <SettingChunk title={"Temperature"} value={temperature}>
+                <Slider
+                    value={temperature}
+                    minimumValue={0}
+                    maximumValue={1}
+                    onValueChange={(value) => setTemperature(getLength(value) > 1 ? value.toFixed(2) : value)}
+                />
+            </SettingChunk>
+            <SettingChunk title={"Max length"} value={maxLength}>
+                <Slider
+                    value={maxLength}
+                    minimumValue={0}
+                    maximumValue={8192}
+                    onValueChange={(value) => setMaxLength(value.toFixed(0))}
+                />
+            </SettingChunk>
+            <SettingChunk title={"Top P"} value={topP}>
+                <Slider
+                    value={topP}
+                    minimumValue={0}
+                    maximumValue={1}
+                    onValueChange={(value) => setTopP(getLength(value) > 1 ? value.toFixed(2) : value)}
+                />
+            </SettingChunk>
+            <SettingChunk title={"Frequency penalty"} value={freqPenalty}>
+                <Slider
+                    value={freqPenalty}
+                    minimumValue={0}
+                    maximumValue={2}
+                    onValueChange={(value) => setFreqPenalty(getLength(value) > 1 ? value.toFixed(2) : value)}
+                />
+            </SettingChunk>
+            <SettingChunk title={"Presence penalty"} value={presencePenalty}>
+                <Slider
+                    value={presencePenalty}
+                    minimumValue={0}
+                    maximumValue={2}
+                    onValueChange={(value) => setPresencePenalty(getLength(value) > 1 ? value.toFixed(2) : value)}
+                />
+            </SettingChunk>
+
+
+            <Button status={"basic"} style={styles.tokenChangeButton} onPress={resetSettings}>Reset Settings</Button>
+            <ChangeToken/>
+        </View>
+    </ScrollView>)
+    function renderMainContent(){
+        return mainContent
+    }
+    if(Platform.OS === 'ios'){
+        return (
+            <KeyboardAvoidingView behavior={"padding"}>
+                {renderMainContent()}
+            </KeyboardAvoidingView>
+        );
+    } else {
+        return (
+            renderMainContent()
+        )
+    }
+
 }
 
 const styles = StyleSheet.create({
