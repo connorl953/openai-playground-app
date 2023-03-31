@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {ActivityIndicator, Alert, Keyboard, KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {ActivityIndicator, Alert, Keyboard, KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import {Button} from "@ui-kitten/components";
 import {ChatContext} from "../../store/chat-context";
 import {cancelCompletion, openAiCompletion} from "../../util/http";
@@ -160,7 +160,6 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         flex: 1,
-        position: "relative",
         height: '100%',
         borderRadius: 0,
         borderWidth: 0,
@@ -171,6 +170,16 @@ const styles = StyleSheet.create({
         height: '10%',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
+    },
+    IOSKeyboardAvoidingButtonContainer:{
+        flexDirection: 'row',
+        width: '100%',
+        height: '10%',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+    },
+    IOSKeyboardAvoidingButtonContentContainer:{
+        height: '0%',
     }
 });
 
