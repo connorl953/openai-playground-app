@@ -3,6 +3,12 @@ import {StyleSheet, View} from 'react-native';
 import {Button, Input} from "@ui-kitten/components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+/**
+ * ChangeToken()
+ * This component allows the user to change their OpenAI token.
+ *
+ * @returns A JSX component that displays an input field and a button to save the token.
+ */
 function ChangeToken({}) {
 
     const [activated, setActivated] = useState(false);

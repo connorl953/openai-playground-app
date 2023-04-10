@@ -16,7 +16,16 @@ export const SettingsContext = createContext({
         setPresencePenalty: () => {},
     }
 });
-
+/**
+ * SettingsContextProvider
+ * This component provides a context for the settings of the application.
+ * It initializes the settings state with default values.
+ *
+ * This component is unused for now.
+ *
+ * @param props The props passed to the component.
+ * @return A JSX element that provides the settings context.
+ */
 const SettingsContextProvider = (props) => {
     const [settings, setSettings] = useState({
         token: "",

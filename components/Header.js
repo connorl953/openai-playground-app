@@ -3,11 +3,22 @@ import {Animated, Easing, Keyboard, Pressable, StyleSheet, Text, View} from 'rea
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
 
+
+/**
+ * Header()
+ * This component displays the header of the app, including the logo, title, and settings button.
+ *
+ * @param style An optional style object to apply to the container.
+ * @returns A JSX element representing the header.
+ */
 function Header({style}){
     const navigation = useNavigation();
     const animatedValue = new Animated.Value(0);
 
-
+    /**
+     * handlePressed()
+     * This function handles the press event of a button. It animates the button using the Animated API and opens the navigation drawer.
+     */
     function handlePressed(){
         Animated.timing(animatedValue, {
             toValue: 1,

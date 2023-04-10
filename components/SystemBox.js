@@ -6,6 +6,13 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 const animatedValue = new Animated.Value(0);
 
+
+/**
+ * SystemBox()
+ * This component renders a text box allowing the user to enter system messages.
+ *
+ * @return The rendered SystemBox component.
+ */
 function SystemBox({}) {
 
     const chatCtx = useContext(ChatContext);
@@ -20,7 +27,6 @@ function SystemBox({}) {
     const [iconName, setIconName] = React.useState("resize-outline");
 
     function handleHiddenToggle() {
-
         setHidden(!hidden)
     }
 

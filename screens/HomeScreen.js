@@ -15,9 +15,17 @@ function isValidJson(str) {
     return true;
 }
 
+/**
+ * HomeScreen()
+ * This component represents the home screen of the chat app.
+ *
+ * @param navigation The navigation object used to navigate between screens.
+ * @param route The route object containing the parameters passed to this screen.
+ * @return A JSX element representing the home screen.
+ */
+
 function HomeScreen({navigation, route}) {
     const params = route.params;
-
 
     return (
         <View style={styles.container}>

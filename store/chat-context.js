@@ -16,6 +16,15 @@ export const ChatContext = createContext({
     swapMessage: () => {},
 });
 
+/**
+ * ChatContextProvider
+ * This component provides a context for the chat messages and system messages.
+ * It also provides methods to add, delete, update, and clear messages.
+ *
+ * @param props The props passed to the component.
+ * @return A ChatContext.Provider component with the necessary values and methods.
+ */
+
 const ChatContextProvider = (props) => {
     const [messages, setMessages] = useState([]);
     const [systemMessage, setSystemMessage] = useState("");

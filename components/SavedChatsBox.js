@@ -2,6 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, IndexPath, Select, SelectItem} from "@ui-kitten/components";
 
+/**
+ * SavedChatsBox()
+ * This component displays a box containing saved chats.
+ *
+ * @param  No parameters are passed to this component.
+ * @return The JSX code for the SavedChatsBox component.
+ */
 
 function SavedChatsBox({}) {
     const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));

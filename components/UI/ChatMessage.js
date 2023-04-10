@@ -3,7 +3,18 @@ import {KeyboardAvoidingView, Pressable, StyleSheet, Text, View} from 'react-nat
 import {Input} from "@ui-kitten/components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-
+/**
+ * ChatMessage()
+ * This component represents a single message in a chat conversation.
+ *
+ * @param item An object containing information about the message, including its content and whether it was sent by an assistant.
+ * @param onSwap A function to call when the user wants to swap the position of this message with another message.
+ * @param onDelete A function to call when the user wants to delete this message.
+ * @param onEdit A function to call when the user edits the content of this message.
+ * @param onFocus A function to call when the user focuses on the input field for this message.
+ * @param onBlur A function to call when the user blurs from the input field for this message.
+ * @return A JSX element representing the message.
+ */
 function ChatMessage({item, onSwap, onDelete, onEdit, onFocus, onBlur}) {
 
     const message = item.message;

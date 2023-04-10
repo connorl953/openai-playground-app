@@ -2,10 +2,16 @@ import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+/**
+ * AddMessage()
+ * This component renders a container with two pressable buttons: one to add a message and one to clear the chat.
+ *
+ * @param onAddMessage A function to be called when the "Add message" button is pressed.
+ * @param onClearChat A function to be called when the "Clear chat" button is pressed.
+ * @param style An optional style object to be applied to the overall container.
+ * @returns A JSX element containing the two pressable buttons.
+ */
 function AddMessage({onAddMessage, onClearChat, style}) {
-
-
-
     return (
         <View style={[styles.overallContainer, {...style}]}>
             <Pressable style={styles.addContainer} onPress={onAddMessage}>

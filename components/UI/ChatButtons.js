@@ -5,6 +5,13 @@ import {ChatContext} from "../../store/chat-context";
 import {cancelCompletion, openAiCompletion} from "../../util/http";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+/**
+ * ChatButtons()
+ * This component renders the submit and back/stop buttons for the chat interface.
+ *
+ * @param onTextChange A function to handle changes in the text input.
+ * @return A JSX element containing the buttons.
+ */
 function ChatButtons({onTextChange}) {
 
     const chatCtx = useContext(ChatContext);
@@ -12,8 +19,6 @@ function ChatButtons({onTextChange}) {
 
 
     async function submitChat() {
-
-
         setTimeout(async () => {
             Keyboard.dismiss();
             setIsCompleting(true);

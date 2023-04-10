@@ -6,7 +6,12 @@ import {ChatContext} from "../store/chat-context";
 import ChatButtons from "./UI/ChatButtons";
 import SystemBox from "./SystemBox";
 
-
+/**
+ * ScrollableChat()
+ * This component renders a scrollable chat interface with a system box, a chat message list, and chat buttons.
+ *
+ * @return The JSX code to render the component.
+ */
 function ScrollableChat({}) {
 
 
@@ -25,6 +30,12 @@ function ScrollableChat({}) {
 
     const [isTyping, setIsTyping] = useState(false);
 
+    /**
+     * onAddMessage()
+     * This asynchronous function adds a message to the chat context and logs information about the message and the chat context.
+     *
+     * @return The ID of the added message.
+     */
     async function onAddMessage() {
         let id = await chatCtx.addMessage();
         console.log("Add message, id: " + id);

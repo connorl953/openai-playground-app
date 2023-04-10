@@ -2,6 +2,18 @@ import EventSource from "react-native-sse";
 
 
 let es;
+
+/**
+ * openAiCompletion()
+ * This function initializes a connection to the OpenAI API for text completion.
+ *
+ * @param token The API token to use for authentication.
+ * @param settings An object containing settings for the completion.
+ * @param messages An array of messages to use as context for the completion.
+ * @param handleText A callback function to handle the completed text.
+ * @param onCompletion A callback function to handle completion of the text.
+ * @param onError A callback function to handle errors that occur during the completion process.
+ */
 export const openAiCompletion = (token, settings, messages, handleText, onCompletion, onError) => {
     let fullText = "";
 

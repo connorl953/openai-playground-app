@@ -22,7 +22,12 @@ const models = [
 
 ];
 
-
+/**
+ * DrawerSettings()
+ * This component renders the settings drawer for the chatbot.
+ *
+ * @return A JSX element containing the settings drawer.
+ */
 function DrawerSettings({}) {
 
 
@@ -34,7 +39,12 @@ function DrawerSettings({}) {
     const [presencePenalty, setPresencePenalty] = useState(0.0);
     const [initialLoad, setInitialLoad] = useState(true);
 
-
+    /**
+     * initialLoader()
+     * This asynchronous function loads the initial settings from AsyncStorage if they exist.
+     * It sets the state variables for model, temperature, max length, top p, frequency penalty, and presence penalty.
+     * If the initial load is true, it sets it to false after loading the settings.
+     */
     async function initialLoader(){
         if(!!await AsyncStorage.getItem('settings') && initialLoad){
             await AsyncStorage.getItem('settings').then((settings) => {
@@ -57,7 +67,13 @@ function DrawerSettings({}) {
     function getLength(number) {
         return number.toString().length;
     }
-
+    /**
+     * saveSettings()
+     * This asynchronous function saves the selected settings to local storage.
+     *
+     * @param modelName The name of the model to save settings for.
+     * @returns Nothing.
+     */
     async function saveSettings(modelName) {
         // Check if settings are the same
         AsyncStorage.setItem('settings', JSON.stringify({

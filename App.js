@@ -1,4 +1,3 @@
-import {ActivityIndicator, StyleSheet} from 'react-native';
 import {createDrawerNavigator, DrawerContentScrollView} from "@react-navigation/drawer";
 import {NavigationContainer} from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
@@ -19,7 +18,12 @@ function CustomDrawerContent(props) {
 }
 
 const Drawer = createDrawerNavigator();
-
+/**
+ * chatStack()
+ * This function returns a JSX component that renders the chat application with a drawer navigation.
+ *
+ * @return A JSX component that renders the chat application.
+ */
 function chatStack() {
     return (
 
@@ -44,6 +48,13 @@ function chatStack() {
     );
 }
 
+/**
+ * App()
+ * This is the main component of the application.
+ * It renders the StatusBar and the chatStack component.
+ *
+ * @return The JSX code to render the StatusBar and chatStack.
+ */
 export default function App() {
     return (
         <>
